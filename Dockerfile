@@ -9,6 +9,7 @@ RUN apt-get update -qqy \
     openjdk-8-jre \
     git \
     build-essential \
+    python \
     jq \
  && rm -rf /var/lib/apt/lists/*
 
