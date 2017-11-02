@@ -1,5 +1,6 @@
 FROM ubuntu:14.04
 MAINTAINER Adrian Bienkowski
+
 # -- install build essentials and tools
 RUN apt-get update -qqy \
  && apt-get -qqy --no-install-recommends install \
@@ -12,7 +13,7 @@ RUN apt-get update -qqy \
     jq \
  && rm -rf /var/lib/apt/lists/*
 
-# -- set
+# -- set agent version an workdir
 ARG VERSION=3.10
 ARG AGENT_WORKDIR=/home/jenkins/agent
 
@@ -32,7 +33,10 @@ RUN groupadd -g 10000 jenkins \
 # -- as jenkins user
 USER jenkins
 ENV AGENT_WORKDIR=${AGENT_WORKDIR}
-RUN mkdir /home/jenkins/.jenkins && mkdir -p ${AGENT_WORKDIR}
+RUN mkdir /home/jenkins/.jenkins \
+ && mkdir -p /home/jenkins/.ssh \
+ && mkdir -p /home/jenkins/.m2 \
+ && mkdir -p ${AGENT_WORKDIR}
 
 # -- set working directory for the container
 WORKDIR /home/jenkins
