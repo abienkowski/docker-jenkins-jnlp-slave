@@ -5,12 +5,12 @@ RUN apt-get update -qqy \
  && apt-get -qqy --no-install-recommends install \
     ca-certificates \
     curl openssh-client openssl \
-    openjdk-8-jdk \
+    openjdk-7-jdk \
     git \
     build-essential \
     less \
     jq \
- && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /var/lib/apt/lists/*
 
 # -- set
 ARG VERSION=3.10
@@ -26,8 +26,8 @@ COPY jenkins-slave /usr/local/bin/jenkins-slave
 
 # -- create jenkins user and home directory
 ENV HOME /home/jenkins
-RUN addgroup -S -g 10000 jenkins
-RUN adduser -S -u 10000 -h $HOME -G jenkins jenkins
+RUN groupadd -g 10000 jenkins \
+ && useradd -u 10000 -m -g jenkins jenkins
 
 # -- as jenkins user
 USER jenkins
