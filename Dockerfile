@@ -42,4 +42,4 @@ RUN mkdir /home/jenkins/.jenkins \
 WORKDIR /home/jenkins
 
 # -- set entrypoint for the container
-ENTRYPOINT ["jenkins-slave"]
+ENTRYPOINT ["/usr/local/bin/jenkins-slave"]
