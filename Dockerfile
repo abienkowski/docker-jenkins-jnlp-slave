@@ -9,7 +9,7 @@ RUN apt-get update -qqy \
     openjdk-8-jre \
     git \
     build-essential \
-    clang-3.6 \
+    clang \
     python \
     jq \
  && rm -rf /var/lib/apt/lists/*
