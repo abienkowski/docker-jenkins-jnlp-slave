@@ -14,7 +14,7 @@ RUN apt-get update -qqy \
  && rm -rf /var/lib/apt/lists/*
 
 # -- set agent version an workdir
-ARG VERSION=1.421
+ARG VERSION=2.62.6
 ARG AGENT_WORKDIR=/home/jenkins/agent
 
 # -- install slave jar
