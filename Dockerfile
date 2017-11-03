@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:14.04
 MAINTAINER Adrian Bienkowski
 
 # -- install build essentials and tools
@@ -6,9 +6,10 @@ RUN apt-get update -qqy \
  && apt-get -qqy --no-install-recommends install \
     ca-certificates \
     curl openssh-client openssl \
-    openjdk-8-jre \
+    openjdk-7-jre \
     git \
     build-essential \
+    clang-3.6 \
     python \
     jq \
  && rm -rf /var/lib/apt/lists/*
