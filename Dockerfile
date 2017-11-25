@@ -6,15 +6,15 @@ RUN apt-get update -qqy \
  && apt-get -qqy --no-install-recommends install \
     ca-certificates \
     curl openssh-client openssl \
-    openjdk-7-jdk \
+    openjdk-7-jre \
     git \
     build-essential \
-    less \
+    python \
     jq \
  && rm -rf /var/lib/apt/lists/*
 
 # -- set agent version an workdir
-ARG VERSION=3.10
+ARG VERSION=2.62.6
 ARG AGENT_WORKDIR=/home/jenkins/agent
 
 # -- install slave jar
