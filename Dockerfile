@@ -4,18 +4,20 @@ MAINTAINER Adrian Bienkowski
 # -- install build essentials and tools
 RUN apt-get update -qqy \
  && apt-get -qqy --no-install-recommends install \
-    ca-certificates \
-    curl openssh-client openssl \
-    openjdk-8-jre \
-    git \
     build-essential \
+    ca-certificates \
     clang \
-    python \
+    curl openssh-client openssl \
+    git \
     jq \
+    less \
+    openjdk-8-jre-headless \
+    python \
+    tzdata \
  && rm -rf /var/lib/apt/lists/*
 
 # -- set agent version an workdir
-ARG VERSION=3.12
+ARG VERSION=3.14
 ARG AGENT_WORKDIR=/home/jenkins/agent
 
 # -- install slave jar
