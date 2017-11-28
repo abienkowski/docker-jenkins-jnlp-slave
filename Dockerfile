@@ -14,6 +14,7 @@ RUN apt-get update -qqy \
     libxml2-utils \
     openjdk-8-jre-headless \
     python \
+    rsync \
     tzdata \
  && rm -rf /var/lib/apt/lists/*
 
