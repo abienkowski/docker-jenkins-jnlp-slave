@@ -11,6 +11,7 @@ RUN apt-get update -qqy \
     git \
     jq \
     less \
+    libxml2-utils \
     openjdk-8-jre-headless \
     python \
     tzdata \
