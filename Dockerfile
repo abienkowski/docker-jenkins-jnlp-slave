@@ -4,13 +4,16 @@ MAINTAINER Adrian Bienkowski
 # -- install build essentials and tools
 RUN apt-get update -qqy \
  && apt-get -qqy --no-install-recommends install \
-    ca-certificates \
-    curl openssh-client openssl \
-    openjdk-8-jdk-headless \
-    git \
     build-essential \
-    python \
+    ca-certificates \
+    curl \
+    git \
     jq \
+    openjdk-8-jdk-headless \
+    openssh-client \
+    openssl \
+    python \
+    rsync \
  && rm -rf /var/lib/apt/lists/*
 
 # -- set agent version an workdir
