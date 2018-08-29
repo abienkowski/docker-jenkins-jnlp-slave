@@ -16,6 +16,7 @@ RUN apt-get update -qqy \
     python \
     ruby \
     rsync \
+    netcat \
     tzdata \
  && apt-get -qqy install python-pip \
  && pip install python-openstackclient \
