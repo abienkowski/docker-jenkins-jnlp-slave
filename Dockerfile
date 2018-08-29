@@ -12,6 +12,7 @@ RUN apt-get update -qqy \
     jq \
     less \
     libxml2-utils \
+    openjdk-8-jre-headless \
     python \
     rsync \
     tzdata \
