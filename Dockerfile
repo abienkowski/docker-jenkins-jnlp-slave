@@ -12,10 +12,12 @@ RUN apt-get update -qqy \
     jq \
     less \
     libxml2-utils \
-    openjdk-8-jre-headless \
     python \
     rsync \
     tzdata \
+ && apt-get -qqy install python-pip \
+ && pip install python-openstackclient \
+ && pip install python-heatclient \
  && rm -rf /var/lib/apt/lists/*
 
 # -- set agent version an workdir
