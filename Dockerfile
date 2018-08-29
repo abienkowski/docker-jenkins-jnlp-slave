@@ -14,6 +14,7 @@ RUN apt-get update -qqy \
     libxml2-utils \
     openjdk-8-jre-headless \
     python \
+    ruby \
     rsync \
     tzdata \
  && apt-get -qqy install python-pip \
