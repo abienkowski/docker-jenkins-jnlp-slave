@@ -18,6 +18,7 @@ RUN apt-get update -qqy \
     rsync \
     netcat \
     tzdata \
+    dnsutils \
  && apt-get -qqy install python-pip \
  && pip install python-openstackclient \
  && pip install python-heatclient \
