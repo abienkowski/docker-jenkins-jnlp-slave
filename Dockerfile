@@ -22,6 +22,7 @@ RUN apt-get update -qqy \
  && apt-get -qqy install python-pip \
  && pip install python-openstackclient \
  && pip install python-heatclient \
+ && gem install bundler \
  && rm -rf /var/lib/apt/lists/*
 
 # -- set agent version an workdir
