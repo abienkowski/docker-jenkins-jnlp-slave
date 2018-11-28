@@ -15,6 +15,7 @@ RUN apt-get update -qqy \
     openjdk-8-jre-headless \
     python \
     ruby \
+    ruby-dev \
     rsync \
     netcat \
     tzdata \
@@ -22,7 +23,10 @@ RUN apt-get update -qqy \
  && apt-get -qqy install python-pip \
  && pip install python-openstackclient \
  && pip install python-heatclient \
- && gem install bundler \
+ && gem install --no-ri --no-rdoc rake \
+ && gem install --no-ri --no-rdoc bundler \
+ && gem install --no-ri --no-rdoc rspec \
+ && gem install --no-ri --no-rdoc rubocop \
  && rm -rf /var/lib/apt/lists/*
 
 # -- set agent version an workdir
