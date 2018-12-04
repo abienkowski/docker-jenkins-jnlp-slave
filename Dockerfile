@@ -29,6 +29,12 @@ RUN apt-get update -qqy \
  && gem install --no-ri --no-rdoc rubocop \
  && rm -rf /var/lib/apt/lists/*
 
+ARG CHEFDK_VERSION=1.6.11
+ARG CHEFDK_FILE=chefdk_1.6.11-1_amd64.deb
+# -- add chefdk
+RUN curl -sSLo /${CHEFDK_FILE} https://packages.chef.io/files/stable/chefdk/${CHEFDK_VERSION}/ubuntu/16.04/${CHEFDK_FILE} \
+ && dpkg -i /${CHEFDK_FILE}
+
 # -- set agent version an workdir
 ARG VERSION=3.14
 ARG AGENT_WORKDIR=/home/jenkins/agent
