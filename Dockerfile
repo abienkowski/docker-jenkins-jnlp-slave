@@ -27,6 +27,7 @@ RUN apt-get update -qqy \
  && gem install --no-ri --no-rdoc bundler \
  && gem install --no-ri --no-rdoc rspec \
  && gem install --no-ri --no-rdoc rubocop \
+ && gem install --no-ri --no-rdoc chef-provisioning-ssh \
  && rm -rf /var/lib/apt/lists/*
 
 ARG CHEFDK_VERSION=1.6.11
