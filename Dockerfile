@@ -27,7 +27,6 @@ RUN apt-get update -qqy \
  && gem install --no-ri --no-rdoc bundler \
  && gem install --no-ri --no-rdoc rspec \
  && gem install --no-ri --no-rdoc rubocop \
- && gem install --no-ri --no-rdoc chef-provisioning-ssh \
  && rm -rf /var/lib/apt/lists/*
 
 ARG CHEFDK_VERSION=1.6.11
@@ -35,6 +34,9 @@ ARG CHEFDK_FILE=chefdk_1.6.11-1_amd64.deb
 # -- add chefdk
 RUN curl -sSLo /${CHEFDK_FILE} https://packages.chef.io/files/stable/chefdk/${CHEFDK_VERSION}/ubuntu/16.04/${CHEFDK_FILE} \
  && dpkg -i /${CHEFDK_FILE}
+# -- add gem dependencies required for deployment
+RUN eval $(chef shell-init sh) \
+ && gem install --no-ri --no-rdoc chef-provisioning-ssh -v 0.1.0
 
 # -- set agent version an workdir
 ARG VERSION=3.14
@@ -51,7 +53,8 @@ COPY jenkins-slave /usr/local/bin/jenkins-slave
 # -- create jenkins user and home directory
 ENV HOME /home/jenkins
 RUN groupadd -g 10000 jenkins \
- && useradd -u 10000 -m -g jenkins jenkins
+ && useradd -u 10000 -m -g jenkins jenkins \
+ && ln -snf /home/jenkins/.chef /var/chef
 
 # -- as jenkins user
 USER jenkins
