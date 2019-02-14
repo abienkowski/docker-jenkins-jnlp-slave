@@ -52,14 +52,17 @@ RUN mkdir /home/jenkins/.jenkins \
  WORKDIR /home/jenkins/secure-ci
  
  # -- Install SpotBugs with FindSecBugs plugin
- RUN wget http://central.maven.org/maven2/com/github/spotbugs/spotbugs/${SPOTBUGS_VERSION}/spotbugs-${SPOTBUGS_VERSION}.zip
+ # RUN wget http://central.maven.org/maven2/com/github/spotbugs/spotbugs/${SPOTBUGS_VERSION}/spotbugs-${SPOTBUGS_VERSION}.zip
+ RUN curl -sSL http://central.maven.org/maven2/com/github/spotbugs/spotbugs/${SPOTBUGS_VERSION}/spotbugs-${SPOTBUGS_VERSION}.zip
  RUN unzip spotbugs-${SPOTBUGS_VERSION}.zip
  
- RUN wget -P ./spotbugs-${SPOTBUGS_VERSION}/plugin  http://central.maven.org/maven2/com/h3xstream/findsecbugs/findsecbugs-plugin/1.8.0/findsecbugs-plugin-1.8.0.jar
+ # RUN wget -P ./spotbugs-${SPOTBUGS_VERSION}/plugin  http://central.maven.org/maven2/com/h3xstream/findsecbugs/findsecbugs-plugin/1.8.0/findsecbugs-plugin-1.8.0.jar
+ RUN curl -sSLo ./spotbugs-${SPOTBUGS_VERSION}/plugin/findsecbugs-plugin.jar  http://central.maven.org/maven2/com/h3xstream/findsecbugs/findsecbugs-plugin/1.8.0/findsecbugs-plugin-1.8.0.jar
  
  # -- Install OWASP Depdendency check
  
- RUN wget https://dl.bintray.com/jeremy-long/owasp/dependency-check-${DEPCHECK_VERSION}-release.zip
+ # RUN wget https://dl.bintray.com/jeremy-long/owasp/dependency-check-${DEPCHECK_VERSION}-release.zip
+ RUN curl -sSL https://dl.bintray.com/jeremy-long/owasp/dependency-check-${DEPCHECK_VERSION}-release.zip
  RUN unzip dependency-check-${DEPCHECK_VERSION}-release.zip
  
  # -- Remove downloaded zip files
