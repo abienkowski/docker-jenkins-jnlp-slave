@@ -14,29 +14,10 @@ RUN apt-get update -qqy \
     libxml2-utils \
     openjdk-8-jre-headless \
     python \
-    ruby \
-    ruby-dev \
     rsync \
-    netcat \
     tzdata \
-    dnsutils \
- && apt-get -qqy install python-pip \
- && pip install python-openstackclient \
- && pip install python-heatclient \
- && gem install --no-ri --no-rdoc rake \
- && gem install --no-ri --no-rdoc bundler \
- && gem install --no-ri --no-rdoc rspec \
- && gem install --no-ri --no-rdoc rubocop \
+	unzip \
  && rm -rf /var/lib/apt/lists/*
-
-ARG CHEFDK_VERSION=1.6.11
-ARG CHEFDK_FILE=chefdk_1.6.11-1_amd64.deb
-# -- add chefdk
-RUN curl -sSLo /${CHEFDK_FILE} https://packages.chef.io/files/stable/chefdk/${CHEFDK_VERSION}/ubuntu/16.04/${CHEFDK_FILE} \
- && dpkg -i /${CHEFDK_FILE}
-# -- add gem dependencies required for deployment
-RUN eval $(chef shell-init sh) \
- && gem install --no-ri --no-rdoc chef-provisioning-ssh -v 0.1.0
 
 # -- set agent version an workdir
 ARG VERSION=3.14
@@ -53,8 +34,7 @@ COPY jenkins-slave /usr/local/bin/jenkins-slave
 # -- create jenkins user and home directory
 ENV HOME /home/jenkins
 RUN groupadd -g 10000 jenkins \
- && useradd -u 10000 -m -g jenkins jenkins \
- && ln -snf /home/jenkins/.chef /var/chef
+ && useradd -u 10000 -m -g jenkins jenkins
 
 # -- as jenkins user
 USER jenkins
@@ -63,6 +43,28 @@ RUN mkdir /home/jenkins/.jenkins \
  && mkdir -p /home/jenkins/.ssh \
  && mkdir -p /home/jenkins/.m2 \
  && mkdir -p ${AGENT_WORKDIR}
+ 
+ # -- Install security tools
+ ENV SPOTBUGS_VERSION=3.1.11
+ ENV DEPCHECK_VERSION=4.0.2
+ 
+ RUN mkdir /home/jenkins/secure-ci
+ WORKDIR /home/jenkins/secure-ci
+ 
+ # -- Install SpotBugs with FindSecBugs plugin
+ RUN wget http://central.maven.org/maven2/com/github/spotbugs/spotbugs/${SPOTBUGS_VERSION}/spotbugs-${SPOTBUGS_VERSION}.zip
+ RUN unzip spotbugs-${SPOTBUGS_VERSION}.zip
+ 
+ RUN wget -P ./spotbugs-${SPOTBUGS_VERSION}/plugin  http://central.maven.org/maven2/com/h3xstream/findsecbugs/findsecbugs-plugin/1.8.0/findsecbugs-plugin-1.8.0.jar
+ 
+ # -- Install OWASP Depdendency check
+ 
+ RUN wget https://dl.bintray.com/jeremy-long/owasp/dependency-check-${DEPCHECK_VERSION}-release.zip
+ RUN unzip dependency-check-${DEPCHECK_VERSION}-release.zip
+ 
+ # -- Remove downloaded zip files
+ RUN rm -f spotbugs-${SPOTBUGS_VERSION}.zip  dependency-check-${DEPCHECK_VERSION}-release.zip
+ 
 
 # -- set working directory for the container
 WORKDIR /home/jenkins
