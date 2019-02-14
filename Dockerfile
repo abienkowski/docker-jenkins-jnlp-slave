@@ -44,29 +44,29 @@ RUN mkdir /home/jenkins/.jenkins \
  && mkdir -p /home/jenkins/.m2 \
  && mkdir -p ${AGENT_WORKDIR}
  
- # -- Install security tools
- ENV SPOTBUGS_VERSION=3.1.11
- ENV DEPCHECK_VERSION=4.0.2
+# -- Install security tools
+ENV SPOTBUGS_VERSION=3.1.11
+ENV DEPCHECK_VERSION=4.0.2
  
- RUN mkdir /home/jenkins/secure-ci
- WORKDIR /home/jenkins/secure-ci
+RUN mkdir -p /home/jenkins/secure-ci
+WORKDIR /home/jenkins/secure-ci
  
  # -- Install SpotBugs with FindSecBugs plugin
  # RUN wget http://central.maven.org/maven2/com/github/spotbugs/spotbugs/${SPOTBUGS_VERSION}/spotbugs-${SPOTBUGS_VERSION}.zip
- RUN curl --create-dirs -sSLo ./spotbugs.zip http://central.maven.org/maven2/com/github/spotbugs/spotbugs/${SPOTBUGS_VERSION}/spotbugs-${SPOTBUGS_VERSION}.zip
- RUN unzip spotbugs.zip
+RUN curl --create-dirs -sSLo /home/jenkins/secure-ci/spotbugs.zip http://central.maven.org/maven2/com/github/spotbugs/spotbugs/${SPOTBUGS_VERSION}/spotbugs-${SPOTBUGS_VERSION}.zip
+RUN unzip /home/jenkins/secure-ci/spotbugs.zip
  
  # RUN wget -P ./spotbugs-${SPOTBUGS_VERSION}/plugin  http://central.maven.org/maven2/com/h3xstream/findsecbugs/findsecbugs-plugin/1.8.0/findsecbugs-plugin-1.8.0.jar
- RUN curl --create-dirs -sSLo ./spotbugs-/plugin/findsecbugs-plugin.jar  http://central.maven.org/maven2/com/h3xstream/findsecbugs/findsecbugs-plugin/1.8.0/findsecbugs-plugin-1.8.0.jar
+RUN curl --create-dirs -sSLo /home/jenkins/secure-ci/spotbugs-${SPOTBUGS_VERSION}/plugin/findsecbugs-plugin.jar  http://central.maven.org/maven2/com/h3xstream/findsecbugs/findsecbugs-plugin/1.8.0/findsecbugs-plugin-1.8.0.jar
  
  # -- Install OWASP Depdendency check
  
  # RUN wget https://dl.bintray.com/jeremy-long/owasp/dependency-check-${DEPCHECK_VERSION}-release.zip
- RUN curl --create-dirs -sSLo ./dependency-check.zip  https://dl.bintray.com/jeremy-long/owasp/dependency-check-${DEPCHECK_VERSION}-release.zip
- RUN unzip dependency-check.zip
+RUN curl --create-dirs -sSLo /home/jenkins/secure-ci/dependency-check.zip  https://dl.bintray.com/jeremy-long/owasp/dependency-check-${DEPCHECK_VERSION}-release.zip
+RUN unzip /home/jenkins/secure-ci/dependency-check.zip
  
  # -- Remove downloaded zip files
- RUN rm -f spotbugs.zip  dependency-check.zip
+RUN rm -f /home/jenkins/secure-ci/spotbugs.zip  /home/jenkins/secure-ci/dependency-check.zip
  
 
 # -- set working directory for the container
