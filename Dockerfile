@@ -19,6 +19,28 @@ RUN apt-get update -qqy \
 	unzip \
  && rm -rf /var/lib/apt/lists/*
 
+# -- Install security tools
+ENV SPOTBUGS_VERSION=3.1.11
+ENV DEPCHECK_VERSION=4.0.2
+ 
+RUN mkdir -p /opt/security-tools
+WORKDIR /opt/security-tools
+ 
+ # -- Install SpotBugs with FindSecBugs plugin
+RUN curl --create-dirs -sSLo /opt/security-tools/spotbugs.zip http://central.maven.org/maven2/com/github/spotbugs/spotbugs/${SPOTBUGS_VERSION}/spotbugs-${SPOTBUGS_VERSION}.zip
+RUN unzip /opt/security-tools/spotbugs.zip
+ 
+RUN curl --create-dirs -sSLo /opt/security-tools/spotbugs-${SPOTBUGS_VERSION}/plugin/findsecbugs-plugin.jar  http://central.maven.org/maven2/com/h3xstream/findsecbugs/findsecbugs-plugin/1.8$
+ 
+ # -- Install OWASP Depdendency check
+ 
+RUN curl --create-dirs -sSLo /opt/security-tools/dependency-check.zip  https://dl.bintray.com/jeremy-long/owasp/dependency-check-${DEPCHECK_VERSION}-release.zip
+RUN unzip /opt/security-tools/dependency-check.zip
+ 
+ # -- Remove downloaded zip files
+RUN rm -f /opt/security-tools/spotbugs.zip  /opt/security-tools/dependency-check.zip
+
+
 # -- set agent version an workdir
 ARG VERSION=3.14
 ARG AGENT_WORKDIR=/home/jenkins/agent
@@ -44,31 +66,6 @@ RUN mkdir /home/jenkins/.jenkins \
  && mkdir -p /home/jenkins/.m2 \
  && mkdir -p ${AGENT_WORKDIR}
  
-# -- Install security tools
-ENV SPOTBUGS_VERSION=3.1.11
-ENV DEPCHECK_VERSION=4.0.2
- 
-RUN mkdir -p /opt/security-tools
-WORKDIR /opt/security-tools
- 
- # -- Install SpotBugs with FindSecBugs plugin
- # RUN wget http://central.maven.org/maven2/com/github/spotbugs/spotbugs/${SPOTBUGS_VERSION}/spotbugs-${SPOTBUGS_VERSION}.zip
-RUN curl --create-dirs -sSLo /opt/security-tools/spotbugs.zip http://central.maven.org/maven2/com/github/spotbugs/spotbugs/${SPOTBUGS_VERSION}/spotbugs-${SPOTBUGS_VERSION}.zip
-RUN unzip /opt/security-tools/spotbugs.zip
- 
- # RUN wget -P ./spotbugs-${SPOTBUGS_VERSION}/plugin  http://central.maven.org/maven2/com/h3xstream/findsecbugs/findsecbugs-plugin/1.8.0/findsecbugs-plugin-1.8.0.jar
-RUN curl --create-dirs -sSLo /opt/security-tools/spotbugs-${SPOTBUGS_VERSION}/plugin/findsecbugs-plugin.jar  http://central.maven.org/maven2/com/h3xstream/findsecbugs/findsecbugs-plugin/1.8.0/findsecbugs-plugin-1.8.0.jar
- 
- # -- Install OWASP Depdendency check
- 
- # RUN wget https://dl.bintray.com/jeremy-long/owasp/dependency-check-${DEPCHECK_VERSION}-release.zip
-RUN curl --create-dirs -sSLo /opt/security-tools/dependency-check.zip  https://dl.bintray.com/jeremy-long/owasp/dependency-check-${DEPCHECK_VERSION}-release.zip
-RUN unzip /opt/security-tools/dependency-check.zip
- 
- # -- Remove downloaded zip files
-RUN rm -f /opt/security-tools/spotbugs.zip  /opt/security-tools/dependency-check.zip
- 
-
 # -- set working directory for the container
 WORKDIR /home/jenkins
 
