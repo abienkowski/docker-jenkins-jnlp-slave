@@ -26,18 +26,20 @@ ENV DEPCHECK_VERSION=4.0.2
 RUN mkdir -p /opt/security-tools
 WORKDIR /opt/security-tools
  
- # -- Install SpotBugs with FindSecBugs plugin
+# -- Install SpotBugs with FindSecBugs plugin
 RUN curl --create-dirs -sSLo /opt/security-tools/spotbugs.zip http://central.maven.org/maven2/com/github/spotbugs/spotbugs/${SPOTBUGS_VERSION}/spotbugs-${SPOTBUGS_VERSION}.zip
 RUN unzip /opt/security-tools/spotbugs.zip
  
 RUN curl --create-dirs -sSLo /opt/security-tools/spotbugs-${SPOTBUGS_VERSION}/plugin/findsecbugs-plugin.jar  http://central.maven.org/maven2/com/h3xstream/findsecbugs/findsecbugs-plugin/1.8$
  
- # -- Install OWASP Depdendency check
+# -- Install OWASP Depdendency check
  
 RUN curl --create-dirs -sSLo /opt/security-tools/dependency-check.zip  https://dl.bintray.com/jeremy-long/owasp/dependency-check-${DEPCHECK_VERSION}-release.zip
 RUN unzip /opt/security-tools/dependency-check.zip
+
+RUN chmod -R 775 /opt/security-tools
  
- # -- Remove downloaded zip files
+# -- Remove downloaded zip files
 RUN rm -f /opt/security-tools/spotbugs.zip  /opt/security-tools/dependency-check.zip
 
 
