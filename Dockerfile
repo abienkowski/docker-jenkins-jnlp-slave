@@ -22,10 +22,21 @@ RUN apt-get update -qqy \
 # -- Install security tools
 ENV SPOTBUGS_VERSION=3.1.11
 ENV DEPCHECK_VERSION=4.0.2
+ENV MAVEN_VERSION=3.5.4
  
 RUN mkdir -p /opt/security-tools
 WORKDIR /opt/security-tools
- 
+
+# -- Get Maven
+RUN curl --create-dirs -sSLo /opt/security-tools/apache-maven-${MAVEN_VERSION}.tar.gz http://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
+
+# -- Install Maven
+RUN tar xzf /opt/security-tools/apache-maven-${MAVEN_VERSION}.tar.gz
+RUN ln -s /opt/security-tools/apache-maven-${MAVEN_VERSION} /opt/maven
+RUN ln -s /opt/maven/bin/mvn /usr/local/bin
+RUN rm -f /opt/security-tools/apache-maven-${MAVEN_VERSION}.tar.gz
+ENV MAVEN_HOME /opt/maven
+
 # -- Install SpotBugs with FindSecBugs plugin
 RUN curl --create-dirs -sSLo /opt/security-tools/spotbugs.zip http://central.maven.org/maven2/com/github/spotbugs/spotbugs/${SPOTBUGS_VERSION}/spotbugs-${SPOTBUGS_VERSION}.zip
 RUN unzip /opt/security-tools/spotbugs.zip
