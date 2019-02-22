@@ -47,8 +47,6 @@ RUN curl --create-dirs -sSLo /opt/security-tools/spotbugs-${SPOTBUGS_VERSION}/pl
  
 RUN curl --create-dirs -sSLo /opt/security-tools/dependency-check.zip  https://dl.bintray.com/jeremy-long/owasp/dependency-check-${DEPCHECK_VERSION}-release.zip
 RUN unzip /opt/security-tools/dependency-check.zip
-
-RUN chmod -R 777 /opt/security-tools
  
 # -- Remove downloaded zip files
 RUN rm -f /opt/security-tools/spotbugs.zip  /opt/security-tools/dependency-check.zip
@@ -70,6 +68,10 @@ COPY jenkins-slave /usr/local/bin/jenkins-slave
 ENV HOME /home/jenkins
 RUN groupadd -g 10000 jenkins \
  && useradd -u 10000 -m -g jenkins jenkins
+
+RUN chmod -R 777 /opt/security-tools
+RUN chown -R jenkins /opt/security-tools
+RUN ls -la /opt/security-tools
 
 # -- as jenkins user
 USER jenkins
