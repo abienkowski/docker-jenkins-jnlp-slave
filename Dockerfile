@@ -71,7 +71,7 @@ RUN groupadd -g 10000 jenkins \
 
 RUN chmod -R 777 /opt/security-tools
 RUN chown -R jenkins /opt/security-tools
-RUN ls -la /opt/security-tools
+RUN ls -la /opt/security-tools/dependency-check
 
 # -- as jenkins user
 USER jenkins
