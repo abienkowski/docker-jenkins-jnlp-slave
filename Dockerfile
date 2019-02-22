@@ -12,7 +12,7 @@ RUN apt-get update -qqy \
     jq \
     less \
     libxml2-utils \
-    openjdk-8-jre-headless \
+    openjdk-8-jdk \
     python \
     rsync \
     tzdata \
@@ -48,7 +48,7 @@ RUN curl --create-dirs -sSLo /opt/security-tools/spotbugs-${SPOTBUGS_VERSION}/pl
 RUN curl --create-dirs -sSLo /opt/security-tools/dependency-check.zip  https://dl.bintray.com/jeremy-long/owasp/dependency-check-${DEPCHECK_VERSION}-release.zip
 RUN unzip /opt/security-tools/dependency-check.zip
 
-RUN chmod -R 775 /opt/security-tools
+RUN chmod -R 777 /opt/security-tools
  
 # -- Remove downloaded zip files
 RUN rm -f /opt/security-tools/spotbugs.zip  /opt/security-tools/dependency-check.zip
