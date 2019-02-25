@@ -7,8 +7,8 @@ COPY jenkins-slave /usr/local/bin/jenkins-slave
 USER root
 
 # -- install build essentials and tools
-RUN apt-get update -qqy \
- && apt-get -qqy install \
+RUN apt update -qqy \
+ && apt -qqy install \
     build-essential \
     ca-certificates \
     curl \
