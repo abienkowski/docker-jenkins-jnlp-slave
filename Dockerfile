@@ -32,7 +32,6 @@ ENV DEPCHECK_VERSION=4.0.2
 ENV MAVEN_VERSION=3.5.4
  
 RUN mkdir -p /opt/security-tools
-WORKDIR /opt/security-tools
 
 RUN curl --create-dirs -sSLo /opt/security-tools/apache-maven-${MAVEN_VERSION}.tar.gz http://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
 # -- Install Maven
