@@ -26,38 +26,22 @@ RUN apt update -qqy \
 	  unzip \
  && rm -rf /var/lib/apt/lists/*
 
-# -- Install security tools
+# -- Install security tools in TOOLS_DIR
 ENV SPOTBUGS_VERSION=3.1.11
 ENV DEPCHECK_VERSION=4.0.2
-ENV MAVEN_VERSION=3.5.4
+ENV TOOLS_DIR=/opt/security-tools
  
-RUN mkdir -p /opt/security-tools
-
-RUN curl --create-dirs -sSLo /opt/security-tools/apache-maven-${MAVEN_VERSION}.tar.gz http://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
-# -- Install Maven
-RUN tar xzf /opt/security-tools/apache-maven-${MAVEN_VERSION}.tar.gz
-RUN ln -s /opt/security-tools/apache-maven-${MAVEN_VERSION} /opt/maven
-RUN ln -s /opt/maven/bin/mvn /usr/local/bin
-RUN rm -f /opt/security-tools/apache-maven-${MAVEN_VERSION}.tar.gz
-ENV MAVEN_HOME /opt/maven
+RUN mkdir -p $TOOLS_DIR
 
 # -- Install SpotBugs with FindSecBugs plugin
-RUN curl --create-dirs -sSLo /opt/security-tools/spotbugs.zip http://central.maven.org/maven2/com/github/spotbugs/spotbugs/${SPOTBUGS_VERSION}/spotbugs-${SPOTBUGS_VERSION}.zip
-RUN unzip /opt/security-tools/spotbugs.zip
- 
-RUN curl --create-dirs -sSLo /opt/security-tools/spotbugs-${SPOTBUGS_VERSION}/plugin/findsecbugs-plugin.jar  http://central.maven.org/maven2/com/h3xstream/findsecbugs/findsecbugs-plugin/1.8.0/findsecbugs-plugin-1.8.0.jar
+RUN curl -sSL http://central.maven.org/maven2/com/github/spotbugs/spotbugs/${SPOTBUGS_VERSION}/spotbugs-${SPOTBUGS_VERSION}.tgz | tar -zxf - -C $TOOLS_DIR \
+ && curl --create-dirs -sSLo /opt/security-tools/spotbugs-${SPOTBUGS_VERSION}/plugin/findsecbugs-plugin.jar http://central.maven.org/maven2/com/h3xstream/findsecbugs/findsecbugs-plugin/1.8.0/findsecbugs-plugin-1.8.0.jar
  
 # -- Install OWASP Depdendency check
- 
-RUN curl --create-dirs -sSLo /opt/security-tools/dependency-check.zip  https://dl.bintray.com/jeremy-long/owasp/dependency-check-${DEPCHECK_VERSION}-release.zip
-RUN unzip /opt/security-tools/dependency-check.zip
- 
-# -- Remove downloaded zip files
-RUN rm -f /opt/security-tools/spotbugs.zip  /opt/security-tools/dependency-check.zip
-# -- set agent version an workdir
-RUN chmod -R 777 /opt/security-tools
-RUN chown -R jenkins /opt/security-tools
-RUN ls -la /opt/security-tools/dependency-check
+RUN cd $TOOLS_DIR \
+ && curl -sSLO https://dl.bintray.com/jeremy-long/owasp/dependency-check-${DEPCHECK_VERSION}-release.zip \
+ && unzip dependency-check-${DEPCHECK_VERSION}-release.zip \
+ && rm -f dependency-check-${DEPCHECK_VERSION}-release.zip
 
 # -- as jenkins user
 USER jenkins
