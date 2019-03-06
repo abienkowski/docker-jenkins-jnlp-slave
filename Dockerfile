@@ -4,7 +4,11 @@ MAINTAINER Adrian Bienkowski
 # -- copy start up script
 COPY jenkins-slave /usr/local/bin/jenkins-slave
 
+# -- switch to root user for tool configuration
 USER root
+
+# -- make sure script has executable permissions
+RUN chmod +x /usr/local/bin/jenkins-slave
 
 # -- install build essentials and tools
 RUN apt update -qqy \
@@ -30,6 +34,7 @@ RUN apt update -qqy \
 ENV SPOTBUGS_VERSION=3.1.11
 ENV DEPCHECK_VERSION=4.0.2
 ENV TOOLS_DIR=/opt/security-tools
+ENV DEPCHECK_DATA=$TOOLS_DIR/dependency-check/data
  
 RUN mkdir -p $TOOLS_DIR
 
@@ -42,6 +47,10 @@ RUN cd $TOOLS_DIR \
  && curl -sSLO https://dl.bintray.com/jeremy-long/owasp/dependency-check-${DEPCHECK_VERSION}-release.zip \
  && unzip dependency-check-${DEPCHECK_VERSION}-release.zip \
  && rm -f dependency-check-${DEPCHECK_VERSION}-release.zip
+
+# -- make data directory to persist downloads
+RUN mkdir -p $DEPCHECK_DATA \
+ && chown jenkins:jenkins $DEPCHECK_DATA
 
 # -- as jenkins user
 USER jenkins
