@@ -29,6 +29,8 @@ RUN apt update -qqy \
 # -- Install security tools in TOOLS_DIR
 ENV SPOTBUGS_VERSION=3.1.11
 ENV DEPCHECK_VERSION=4.0.2
+ENV ZAP_VERSION=2.7.0
+ENV ZAP_VERSION_F=2_7_0
 ENV TOOLS_DIR=/opt/security-tools
  
 RUN mkdir -p $TOOLS_DIR
@@ -42,6 +44,13 @@ RUN cd $TOOLS_DIR \
  && curl -sSLO https://dl.bintray.com/jeremy-long/owasp/dependency-check-${DEPCHECK_VERSION}-release.zip \
  && unzip dependency-check-${DEPCHECK_VERSION}-release.zip \
  && rm -f dependency-check-${DEPCHECK_VERSION}-release.zip
+ 
+ 
+ # -- Install OWASP ZAP
+ RUN cd $TOOLS_DIR \
+ && curl -sSLO https://github.com/zaproxy/zaproxy/releases/download/${ZAP_VERSION}/${ZAP_VERSION_F}_unix.sh \
+ && sh ${ZAP_VERSION_F}_unix.sh \
+ && zaproxy 
 
 # -- as jenkins user
 USER jenkins
