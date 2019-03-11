@@ -4,7 +4,11 @@ MAINTAINER Adrian Bienkowski
 # -- copy start up script
 COPY jenkins-slave /usr/local/bin/jenkins-slave
 
+# -- switch to root user for tool configuration
 USER root
+
+# -- make sure script has executable permissions
+RUN chmod +x /usr/local/bin/jenkins-slave
 
 # -- install build essentials and tools
 RUN apt update -qqy \
@@ -32,6 +36,7 @@ ENV DEPCHECK_VERSION=4.0.2
 ENV ZAP_VERSION=2.7.0
 ENV ZAP_VERSION_F=2_7_0
 ENV TOOLS_DIR=/opt/security-tools
+ENV DEPCHECK_DATA=$TOOLS_DIR/dependency-check/data
  
 RUN mkdir -p $TOOLS_DIR
 
@@ -51,6 +56,10 @@ RUN cd $TOOLS_DIR \
  && curl -sSLO https://github.com/zaproxy/zaproxy/releases/download/${ZAP_VERSION}/${ZAP_VERSION_F}_unix.sh \
  && sh ${ZAP_VERSION_F}_unix.sh \
  && zaproxy 
+
+# -- make data directory to persist downloads
+RUN mkdir -p $DEPCHECK_DATA \
+ && chown jenkins:jenkins $DEPCHECK_DATA
 
 # -- as jenkins user
 USER jenkins
