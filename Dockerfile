@@ -53,9 +53,9 @@ RUN cd $TOOLS_DIR \
  
  # -- Install OWASP ZAP
  RUN cd $TOOLS_DIR \
- && curl -sSLO https://github.com/zaproxy/zaproxy/releases/download/${ZAP_VERSION}/${ZAP_VERSION_F}_unix.sh \
- && sh ${ZAP_VERSION_F}_unix.sh \
- && zaproxy 
+ && curl -sSLO https://github.com/zaproxy/zaproxy/releases/download/${ZAP_VERSION}/ZAP_${ZAP_VERSION_F}_unix.sh \
+ && sh ZAP_${ZAP_VERSION_F}_unix.sh \
+&& zaproxy 
 
 # -- make data directory to persist downloads
 RUN mkdir -p $DEPCHECK_DATA \
