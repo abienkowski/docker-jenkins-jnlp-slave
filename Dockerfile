@@ -52,6 +52,7 @@ RUN cd $TOOLS_DIR \
  
  
  # -- Install OWASP ZAP
+ RUN cd $TOOLS_DIR 
  RUN pwd
  RUN curl -sSLO https://github.com/zaproxy/zaproxy/releases/download/${ZAP_VERSION}/ZAP_${ZAP_VERSION_F}_unix.sh
  RUN chown jenkins:jenkins ZAP_${ZAP_VERSION_F}_unix.sh
