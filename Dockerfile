@@ -27,7 +27,25 @@ RUN apt update -qqy \
     python \
     rsync \
     tzdata \
-	  unzip \
+    unzip \
+    make\
+    automake \
+    autoconf \
+    gcc g++ \
+    openjdk-8-jdk \
+    ruby \
+    wget \
+    curl \
+    xmlstarlet \
+    openbox \
+    xterm \
+    net-tools \
+    ruby-dev \
+    python-pip \
+    firefox \
+    xvfb \
+    x11vnc \
+ && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
 # -- Install security tools in TOOLS_DIR
@@ -50,17 +68,6 @@ RUN cd $TOOLS_DIR \
  && unzip dependency-check-${DEPCHECK_VERSION}-release.zip \
  && rm -f dependency-check-${DEPCHECK_VERSION}-release.zip
  
- 
- # -- Install OWASP ZAP
- RUN cd $TOOLS_DIR \
-  && curl -sSLO https://github.com/zaproxy/zaproxy/releases/download/${ZAP_VERSION}/ZAP_${ZAP_VERSION_F}_unix.sh \
-  && chown jenkins:jenkins ZAP_${ZAP_VERSION_F}_unix.sh \
-  && chmod 755 ZAP_${ZAP_VERSION_F}_unix.sh \
-  && pwd \
-  && ls -la \
-  && echo "o\n\n\n" | ./ZAP_${ZAP_VERSION_F}_unix.sh \
-  && zaproxy 
-
 # -- make data directory to persist downloads
 RUN mkdir -p $DEPCHECK_DATA \
  && chown jenkins:jenkins $DEPCHECK_DATA
