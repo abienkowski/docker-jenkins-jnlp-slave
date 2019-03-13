@@ -115,7 +115,7 @@ ENV HOME /home/zap/
 RUN pwd
 RUN ls -la
 
-COPY zap* /zap/
+COPY zap-2.7.0.jar zap.bat zap.ico zap.sh /zap/
 COPY webswing.config /zap/webswing/
 COPY policies /home/zap/.ZAP/policies/
 COPY .xinitrc /home/zap/
