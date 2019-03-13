@@ -102,7 +102,7 @@ RUN mv webswing-* webswing
 RUN rm -R webswing/demo/
 # Accept ZAP license
 RUN touch AcceptedLicense
-RUN ls -la
+
 
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 ENV PATH $JAVA_HOME/bin:/zap/:$PATH
@@ -111,6 +111,9 @@ ENV ZAP_PATH /zap/zap.sh
 # Default port for use with zapcli
 ENV ZAP_PORT 8080
 ENV HOME /home/zap/
+
+RUN pwd
+RUN ls -la
 
 COPY zap* /zap/
 COPY webswing.config /zap/webswing/
