@@ -42,11 +42,13 @@ RUN apt update -qqy \
     net-tools \
     ruby-dev \
     python-pip \
-    firefox \
     xvfb \
     x11vnc \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
+
+RUN gem install zapr
+RUN pip install --upgrade pip zapcli python-owasp-zap-v2.4
 
 # -- Install security tools in TOOLS_DIR
 ENV SPOTBUGS_VERSION=3.1.11
@@ -71,6 +73,10 @@ RUN cd $TOOLS_DIR \
 # -- make data directory to persist downloads
 RUN mkdir -p $DEPCHECK_DATA \
  && chown jenkins:jenkins $DEPCHECK_DATA
+
+# --Install OWASP ZAP
+RUN gem install zapr
+RUN pip install --upgrade pip zapcli python-owasp-zap-v2.4 
 
 # -- as jenkins user
 USER jenkins
