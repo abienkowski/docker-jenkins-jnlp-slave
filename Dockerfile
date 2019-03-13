@@ -58,7 +58,7 @@ RUN cd $TOOLS_DIR \
   && chmod 755 ZAP_${ZAP_VERSION_F}_unix.sh \
   && pwd \
   && ls -la \
-  && echo o | ./ZAP_${ZAP_VERSION_F}_unix.sh \
+  && echo "o\n\n\n" | ./ZAP_${ZAP_VERSION_F}_unix.sh \
   && zaproxy 
 
 # -- make data directory to persist downloads
