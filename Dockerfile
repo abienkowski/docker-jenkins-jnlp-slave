@@ -90,19 +90,19 @@ USER zap
 RUN mkdir /home/zap/.vnc
 
 # Download and expand the latest stable release for ZAP
-RUN curl -s https://raw.githubusercontent.com/zaproxy/zap-admin/master/ZapVersions.xml | xmlstarlet sel -t -v //url |grep -i Linux | wget -nv --content-disposition -i - -O - | tar zxv && \
-	cp -R ZAP*/* . &&  \
-	rm -R ZAP* && \
-	# Setup Webswing
-	curl -s -L https://bitbucket.org/meszarv/webswing/downloads/webswing-2.5.10.zip > webswing.zip && \
-	unzip webswing.zip && \
-	rm webswing.zip && \
-	mv webswing-* webswing && \
-	# Remove Webswing demos
-	rm -R webswing/demo/ && \
-	# Accept ZAP license
-	touch AcceptedLicense
-
+RUN curl -s https://raw.githubusercontent.com/zaproxy/zap-admin/master/ZapVersions.xml | xmlstarlet sel -t -v //url |grep -i Linux | wget -nv --content-disposition -i - -O - | tar zxv
+RUN cp -R ZAP*/* . 
+RUN rm -R ZAP* 
+# Setup Webswing
+RUN curl -s -L https://bitbucket.org/meszarv/webswing/downloads/webswing-2.5.10.zip > webswing.zip
+RUN unzip webswing.zip
+RUN rm webswing.zip
+RUN mv webswing-* webswing
+# Remove Webswing demos
+RUN rm -R webswing/demo/
+# Accept ZAP license
+touch AcceptedLicense
+RUN ls -la
 
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 ENV PATH $JAVA_HOME/bin:/zap/:$PATH
