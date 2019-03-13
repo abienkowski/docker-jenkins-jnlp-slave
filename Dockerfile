@@ -52,14 +52,14 @@ RUN cd $TOOLS_DIR \
  
  
  # -- Install OWASP ZAP
- RUN cd $TOOLS_DIR 
- RUN pwd
- RUN curl -sSLO https://github.com/zaproxy/zaproxy/releases/download/${ZAP_VERSION}/ZAP_${ZAP_VERSION_F}_unix.sh
- RUN chown jenkins:jenkins ZAP_${ZAP_VERSION_F}_unix.sh
- RUN chmod 755 ZAP_${ZAP_VERSION_F}_unix.sh
- RUN ls -la
- RUN sh ZAP_${ZAP_VERSION_F}_unix.sh
- RUN zaproxy 
+ RUN cd $TOOLS_DIR \
+  && curl -sSLO https://github.com/zaproxy/zaproxy/releases/download/${ZAP_VERSION}/ZAP_${ZAP_VERSION_F}_unix.sh \
+  && chown jenkins:jenkins ZAP_${ZAP_VERSION_F}_unix.sh \
+  && chmod 755 ZAP_${ZAP_VERSION_F}_unix.sh \
+  && pwd \
+  && ls -la \
+  && sh yes o | ZAP_${ZAP_VERSION_F}_unix.sh \
+  && zaproxy 
 
 # -- make data directory to persist downloads
 RUN mkdir -p $DEPCHECK_DATA \
