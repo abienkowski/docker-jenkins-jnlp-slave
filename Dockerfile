@@ -101,7 +101,7 @@ RUN mv webswing-* webswing
 # Remove Webswing demos
 RUN rm -R webswing/demo/
 # Accept ZAP license
-touch AcceptedLicense
+RUN touch AcceptedLicense
 RUN ls -la
 
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
