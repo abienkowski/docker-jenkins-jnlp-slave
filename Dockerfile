@@ -8,7 +8,8 @@ USER root
 
 # -- install build essentials and tools
 RUN apt update -qqy \
- && apt -qqy install \
+ && apt-get upgrade -qqy \
+ && apt-get -qqy install \
     build-essential \
     ca-certificates \
     curl \
@@ -16,10 +17,17 @@ RUN apt update -qqy \
     jq \
     openssh-client \
     openssl \
+    netcat \
     python \
     rsync \
+    ruby ruby-dev \
  && rm -rf /var/lib/apt/lists/*
 
+# -- install gems used for client testing
+RUN gem install sass \
+ && gem install compass
+
+# -- switch back to jenkins user for service
 USER jenkins
 
 # -- set entrypoint for the container
