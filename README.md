@@ -1,2 +1,2 @@
 # docker-jenkins-jnlp-slave
-Jenkins slave in docker with specific OS and build tools
+jenkins/jnlp-slave from upstream with some additional tools
