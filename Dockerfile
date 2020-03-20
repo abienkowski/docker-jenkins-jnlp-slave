@@ -1,8 +1,9 @@
-FROM jenkins/slave
+FROM jenkins/jnlp-slave
 MAINTAINER Adrian Bienkowski
 
+# NOTE: this is now part of the parent image
 # -- copy start up script
-COPY jenkins-slave /usr/local/bin/jenkins-slave
+#COPY jenkins-slave /usr/local/bin/jenkins-slave
 
 USER root
 
@@ -29,6 +30,3 @@ RUN gem install sass \
 
 # -- switch back to jenkins user for service
 USER jenkins
-
-# -- set entrypoint for the container
-ENTRYPOINT ["/usr/local/bin/jenkins-slave"]
