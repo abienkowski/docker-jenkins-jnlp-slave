@@ -1,14 +1,8 @@
-FROM jenkins/slave
+FROM jenkins/jnlp-slave
 MAINTAINER Adrian Bienkowski
-
-# -- copy start up script
-COPY jenkins-slave /usr/local/bin/jenkins-slave
 
 # -- switch to root user for tool configuration
 USER root
-
-# -- make sure script has executable permissions
-RUN chmod +wx /usr/local/bin/jenkins-slave
 
 # -- install build essentials and tools
 RUN apt update -qqy \
