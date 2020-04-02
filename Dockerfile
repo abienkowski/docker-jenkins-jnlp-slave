@@ -26,7 +26,6 @@ RUN apt update -qqy \
     automake \
     autoconf \
     gcc g++ \
-    openjdk-8-jdk \
     ruby \
     wget \
     curl \
@@ -99,7 +98,6 @@ RUN cd $TOOLS_DIR && ls -la
 
 RUN mkdir $TOOLS_DIR/zap/.vnc
 
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 ENV PATH $JAVA_HOME/bin:$TOOLS_DIR/zap/:$PATH
 ENV ZAP_PATH $TOOLS_DIR/zap/zap.sh
 
