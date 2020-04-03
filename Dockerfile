@@ -42,7 +42,7 @@ RUN apt update -qqy \
  && rm -rf /var/lib/apt/lists/*
 
 # -- Install security tools in TOOLS_DIR
-ENV SPOTBUGS_VERSION=3.1.12
+ENV SPOTBUGS_VERSION=3.1.11
 ENV DEPCHECK_VERSION=5.2.0
 ENV ZAP_VERSION=2.7.0
 ENV ZAP_VERSION_F=2_7_0
